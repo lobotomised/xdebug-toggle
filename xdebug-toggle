@@ -1,0 +1,37 @@
+#!/bin/zsh
+
+prog_name="$(basename "$0")"
+command="$1"
+php_version=$(php -r "echo PHP_MAJOR_VERSION . '.' .PHP_MINOR_VERSION;")
+xdebug_path="/usr/local/etc/php/${php_version}/conf.d"
+
+if [[ "$command" == "on" ]] || [[ "$command" == "off" ]]
+then
+    if [[ "$command" == "on" ]]
+    then
+        mv "${xdebug_path}/../ext-xdebug.ini.disabled" "${xdebug_path}/ext-xdebug.ini"
+
+	      echo "Restarting php..."
+        sudo pkill -9 php-fpm
+        sudo brew services restart php@${php_version} > /dev/null 2>&1
+
+        echo "Restarting nginx..."
+        sudo brew services restart nginx > /dev/null 2>&1
+
+        echo "xdebug has beend enabled"
+    else
+        mv "${xdebug_path}/ext-xdebug.ini" "${xdebug_path}/../ext-xdebug.ini.disabled"
+
+	      echo "Restarting php..."
+        sudo pkill -9 php-fpm
+        sudo brew services restart php@${php_version} > /dev/null 2>&1
+
+        echo "Restarting nginx..."
+        sudo brew services restart nginx > /dev/null 2>&1
+
+        echo "xdebug has beend disabled"
+    fi
+else
+    echo "Command not found"
+    echo "Usage: ${prog_name} <on | off>"
+fi
