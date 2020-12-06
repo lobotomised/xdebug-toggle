@@ -6,12 +6,11 @@ pecl channel-update pecl.php.net ; pecl clear-cache
 pecl install xdebug
 ```
 
-pecl must have enabled xdebug to your php.ini. It should be removed. So check your /usr/local/etc/php/7.4/php.ini and remove the line 
+pecl must have enabled xdebug to your php.ini. It should be removed. So check your /usr/local/etc/php/8.0/php.ini and remove the line 
 
 ```zend_extension="xdebug.so"```
 
-Create the file /usr/local/etc/php/7.4/conf.d/ext-xdebug.ini
-/usr/local/etc/php/7.4/conf.d/ext-xdebug.ini with the following
+Create the file /usr/local/etc/php/8.0/conf.d/ext-xdebug.ini with the following
 
 ```
 [xdebug]
